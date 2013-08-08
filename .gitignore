@@ -1,0 +1,9 @@
+*.coffee
+upload/
+coffee/
+packages/
+node_modules/
+.idea/
+.svn/
+*.log
+config/

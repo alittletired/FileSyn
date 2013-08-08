@@ -1,0 +1,20 @@
+{
+    "name":"fileSyn",
+    "author":"朱林-远峰",
+    "version":"0.0.1",
+    "private":true,
+    "scripts":{
+        "start":"node app"
+    },
+    "dependencies":{
+        "express":"*",
+        "request":"*",
+        "coffee-script":"*",
+        "socket.io-client":"*",
+        "socket.io":"*",
+        "dateformat":"*",
+        "nodemailer":"*"
+
+    }
+
+}

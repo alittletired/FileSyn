@@ -1,0 +1,9 @@
+fs = require 'fs'
+
+{print} = require 'sys'
+{spawn, exec} = require 'child_process'
+task 'watch', '监视 coffee文件改变，将 src/文件夹中文件编译到src中 ', ->
+
+    coffee = spawn 'coffee.cmd', ['-w','-b', '-c', '-o', './','src']
+    coffee.stdout.on 'data', (data) -> print data.toString()
+    coffee.stderr.on 'data', (data) -> print data.toString()
