@@ -18,7 +18,7 @@ exports.listen = (server)->
         synedcount=  0
         totalSalves=(slaveid for own slaveid, slave of master.sockets.sockets when slave.isSlave and not slave.disconnected and slave.id != socket.id)
         totalSalves=totalSalves.length
-        for own slaveid, slave of master.sockets.sockets when slave.isSlave and not slave.disconnected and slave.id != socket.id
+        for own slaveid, slave of master.sockets.sockets when slave.isSlave and not slave.disconnected and slaveid!= socket.id
           slave.emit 'sync', project,(data)->
             socket.send  data.result  if data.event!='notExist'
             if data.event=='notExist' or data.event=='synced'
