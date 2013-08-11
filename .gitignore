@@ -1,6 +1,4 @@
-*.coffee
 upload/
-coffee/
 packages/
 node_modules/
 .idea/
