@@ -2,7 +2,7 @@ sync = require('../lib/sync')
 helper = require('./helper')
 client = require('socket.io-client')
 fs = require('fs')
-appConfig= require('/appConfig')
+appConfig= require('../appConfig')
 return if not appConfig.masterHost
 isConnect = false
 slave = client.connect(appConfig.masterHost + ":" + appConfig.port)
@@ -17,7 +17,7 @@ slave.on 'connect', ->
       console.log "接收到同步指令"+project
       sync project, (data)->
         fn(data)
-        console.log   data.result
+        console.log  JSON.stringify(data)
 
   slave.on 'message', (msg) ->
       console.log msg

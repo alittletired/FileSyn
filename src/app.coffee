@@ -7,11 +7,11 @@ app = express()
 global.appConfig=require './appConfig'
 
 app.use express.favicon()
-
 app.use asset, express.static(__dirname + '/assets' + asset) for asset in ['/css', '/img', '/js', '/html']
 
 app.get '/', (req, res)->
   res.end "server is ok"
+
 app.get '/status', (req, res)->
   res.writeHead 200, {'Content-Type': 'text/html;charset=utf-8'}
   slaves=master.getConnSlaves()
@@ -22,8 +22,7 @@ app.get '/status', (req, res)->
 app.get '/api/:action/:id?', (req, res)->
     res.setHeader("Content-Type", 'text/javascript;charset=utf-8');
     action = require './api/' + req.params.action.toLowerCase()
-    action.get(req, res);
-
+    action.get(req, res)
 
 app.use (err, req, res, next) ->
     console.error err.stack

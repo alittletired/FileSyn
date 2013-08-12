@@ -1,5 +1,5 @@
 io = require('socket.io')
-appConfig= require('/appConfig')
+appConfig= require('../appConfig')
 master=false
 exports.getConnSlaves=()->
   ({'server':slave.endpoint,watch:slave.watchList}  for own slaveid, slave of master.sockets.sockets )
@@ -14,17 +14,17 @@ exports.listen = (server)->
       console.log socket.endpoint+ " 成功连接"
 
       socket.on 'syncAll', (project)->
-        checkTimeOut(project)
         synedcount=  0
-        totalSalves=(slaveid for own slaveid, slave of master.sockets.sockets when slave.isSlave and not slave.disconnected and slave.id != socket.id)
-        totalSalves=totalSalves.length
+        totalSalves=0
         for own slaveid, slave of master.sockets.sockets when slave.isSlave and not slave.disconnected and slaveid!= socket.id
-          slave.emit 'sync', project,(data)->
-            socket.send  data.result  if data.event!='notExist'
-            if data.event=='notExist' or data.event=='synced'
-              synedcount++
-            if synedcount==totalSalves
-              socket.emit 'syncEnd','所有服务器同步完成'
+          totalSalves++
+          do(slave) ->
+            slave.emit 'sync', project,(data)->
+              socket.send slave.endpoint+ data.result+'\n'  if data.event!='notExist'
+              if data.event=='notExist' or data.event=='synced'
+                synedcount++
+              if synedcount==totalSalves
+                socket.emit 'syncEnd','所有服务器同步完成'
 
       socket.on 'master', (watchs)->
         socket.isSlave=true

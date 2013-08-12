@@ -5,8 +5,7 @@ dateformat = require 'dateformat'
 helper = require './helper'
 module.exports = (project, fn)->
     emit=(event, msg)->
-        console.log(msg)
-        client.emit event, {event:event,project: project, result: msg} if client?
+        fn({event:event,project: project, result: msg})
     projectInfo=appConfig.getProjectInfo(project)
     return emit("notExist", "项目不存在") if not projectInfo.exists()
     emit "syncing", "开始同步 #{project}"
