@@ -2,4 +2,5 @@
 cd \
 %5
 cd %2%3
-git pull 
+git reset --hard
+git pull --force

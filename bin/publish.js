@@ -29,16 +29,24 @@ publish = function(project) {
     print("文件上传完毕，发送同步指令...\n");
     localSlave = client.connect(appConfig.masterHost + ":" + appConfig.port);
     localSlave.on('connect', function() {
-      localSlave.on('message', function(message) {
-        return print(message);
+      return localSlave.on('syncedResult', function(msg) {
+        if (msg.event === 'syncing') {
+          console.log('开始同步 ' + msg.result);
+        }
+        if (msg.event === 'synced') {
+          console.log('同步成功 ' + msg.result);
+        }
+        if (msg.event === 'syncedError') {
+          console.log('同步失败 ' + msg.result);
+        }
+        if (msg.event === 'syncEnd') {
+          console.log(msg.result);
+          localSlave.disconnect();
+          return process.exit();
+        }
       });
-      localSlave.on('syncEnd', function(message) {
-        print(message);
-        localSlave.disconnect();
-        return process.exit();
-      });
-      return localSlave.emit("syncAll", project.toLowerCase());
     });
+    localSlave.emit("syncAll", project.toLowerCase());
     return localSlave.on('error', function(data) {
       return console.log("无法连接服务器");
     });

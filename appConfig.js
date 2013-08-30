@@ -42,12 +42,14 @@ defaultConfig.getProjectInfo = function(project) {
     repo = defaultConfig.projects[project];
     projectInfo = {
       root: repo.root,
-      dir: repo.dir || project
+      dir: repo.dir || project,
+      project: project
     };
   } else {
     projectInfo = {
       root: defaultConfig.projectRoot,
-      dir: project
+      dir: project,
+      project: project
     };
   }
   projectInfo.exists = function() {

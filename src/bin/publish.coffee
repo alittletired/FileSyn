@@ -14,13 +14,17 @@ publish = (project)->
         print "文件上传完毕，发送同步指令...\n"
         localSlave= client.connect(appConfig.masterHost + ":" + appConfig.port)
         localSlave.on 'connect', ->
-            localSlave.on 'message', (message) ->print message
-            localSlave.on 'syncEnd', (message) ->
-                print message
-                localSlave.disconnect()
-                process.exit()
+          localSlave.on 'syncedResult', (msg) ->
+            console.log '开始同步 '+ msg.result if  msg.event =='syncing'
+            console.log '同步成功 '+ msg.result if  msg.event =='synced'
+            console.log '同步失败 '+ msg.result if  msg.event =='syncedError'
+            if  msg.event =='syncEnd'
+              console.log msg.result
+              localSlave.disconnect()
+              process.exit()
 
-            localSlave.emit("syncAll", project.toLowerCase())
+
+        localSlave.emit("syncAll", project.toLowerCase())
         localSlave.on 'error', (data) ->
             console.log "无法连接服务器"
 

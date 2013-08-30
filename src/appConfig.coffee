@@ -24,9 +24,9 @@ defaultConfig.getProjectInfo = (project)->
     project = project.toLowerCase()
     if defaultConfig.projects[project]
         repo=defaultConfig.projects[project];
-        projectInfo= {root: repo.root, dir: repo.dir or project}
+        projectInfo= {root: repo.root, dir: repo.dir or project,project:project}
     else
-        projectInfo={root: defaultConfig.projectRoot, dir: project}
+        projectInfo={root: defaultConfig.projectRoot, dir: project,project:project}
 
 
     projectInfo.exists =-> fs.existsSync(projectInfo.root + projectInfo.dir)
